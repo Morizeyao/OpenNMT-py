@@ -28,6 +28,7 @@ class BeamSearch(DecodeStrategy):
         return_attention (bool): See base.
         block_ngram_repeat (int): See base.
         exclusion_tokens (set[int]): See base.
+        temperature (float): The temperature for beam search.
 
     Attributes:
         top_beam_finished (ByteTensor): Shape ``(B,)``.
@@ -53,6 +54,7 @@ class BeamSearch(DecodeStrategy):
             ``(1, B x beam_size, inp_seq_len)``.
         hypotheses (list[list[Tuple[Tensor]]]): Contains a tuple
             of score (float), sequence (long), and attention (float or None).
+        temperature (float): The temperature for beam search.
     """
 
     def __init__(self, beam_size, batch_size, pad, bos, eos, n_best,

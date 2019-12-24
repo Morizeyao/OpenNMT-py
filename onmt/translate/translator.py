@@ -99,6 +99,7 @@ class Translator(object):
         out_file (TextIO or codecs.StreamReaderWriter): Output file.
         report_score (bool) : Whether to report scores
         logger (logging.Logger or NoneType): Logger.
+        temperature (float): The temperature for beam search.
     """
 
     def __init__(
