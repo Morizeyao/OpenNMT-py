@@ -651,6 +651,8 @@ def translate_opts(parser):
     group = parser.add_argument_group('Beam')
     group.add('--beam_size', '-beam_size', type=int, default=5,
               help='Beam size')
+    group.add('--temperature', '-temperature', type=float, default=1.,
+              help="Temperature for beam search")
     group.add('--min_length', '-min_length', type=int, default=0,
               help='Minimum prediction length')
     group.add('--max_length', '-max_length', type=int, default=100,

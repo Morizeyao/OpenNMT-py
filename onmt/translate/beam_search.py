@@ -58,7 +58,7 @@ class BeamSearch(DecodeStrategy):
     def __init__(self, beam_size, batch_size, pad, bos, eos, n_best,
                  global_scorer, min_length, max_length, return_attention,
                  block_ngram_repeat, exclusion_tokens,
-                 stepwise_penalty, ratio):
+                 stepwise_penalty, ratio, temperature=1):
         super(BeamSearch, self).__init__(
             pad, bos, eos, batch_size, beam_size, min_length,
             block_ngram_repeat, exclusion_tokens, return_attention,
@@ -68,6 +68,7 @@ class BeamSearch(DecodeStrategy):
         self.beam_size = beam_size
         self.n_best = n_best
         self.ratio = ratio
+        self.temperature = temperature
 
         # result caching
         self.hypotheses = [[] for _ in range(batch_size)]
@@ -172,6 +173,9 @@ class BeamSearch(DecodeStrategy):
             step + 1, alpha=self.global_scorer.alpha)
 
         curr_scores = log_probs / length_penalty
+
+        # Add temperature
+        curr_scores /= self.temperature
 
         # Avoid any direction that would repeat unwanted ngrams
         self.block_ngram_repeats(curr_scores)

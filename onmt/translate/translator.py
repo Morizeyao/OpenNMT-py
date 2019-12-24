@@ -130,6 +130,7 @@ class Translator(object):
             report_align=False,
             report_score=True,
             logger=None,
+            temperature=1,
             seed=-1):
         self.model = model
         self.fields = fields
@@ -152,6 +153,7 @@ class Translator(object):
         self.beam_size = beam_size
         self.random_sampling_temp = random_sampling_temp
         self.sample_from_topk = random_sampling_topk
+        self.temperature = temperature
 
         self.min_length = min_length
         self.ratio = ratio
@@ -259,6 +261,7 @@ class Translator(object):
             report_align=report_align,
             report_score=report_score,
             logger=logger,
+            temperature=opt.temperature,
             seed=opt.seed)
 
     def _log(self, msg):
@@ -542,7 +545,8 @@ class Translator(object):
                     block_ngram_repeat=self.block_ngram_repeat,
                     exclusion_tokens=self._exclusion_idxs,
                     stepwise_penalty=self.stepwise_penalty,
-                    ratio=self.ratio)
+                    ratio=self.ratio,
+                    temperature=self.temperature)
             return self._translate_batch_with_strategy(batch, src_vocabs,
                                                        decode_strategy)
 
